@@ -28,7 +28,7 @@ void Display::process()
             close();
     }
 
-    RenderWindow::clear();
+    clear();
     draw(vertices_);
     display();
 }
@@ -46,7 +46,7 @@ void Display::flipPixel(int x, int y)
     setPixel(x, y, vertices_[findIndex(x, y)].color == sf::Color::Black);
 }
 
-void Display::clear()
+void Display::clearDisplay()
 {
     for (size_t i=0; i<vertices_.getVertexCount(); i++)
         vertices_[i].color = sf::Color::Black;

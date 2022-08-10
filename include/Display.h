@@ -12,7 +12,7 @@ class Display
         void process();
         void setPixel(int x, int y, bool state);
         void flipPixel(int x, int y);
-        void clear();
+        void clearDisplay();
 
     private:
         size_t findIndex(int x, int y) const;

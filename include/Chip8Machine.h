@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <array>
 #include <memory>
+#include <stack>
 #include "Display.h"
 
 class Chip8Machine
@@ -23,12 +24,15 @@ class Chip8Machine
     protected:
 
     private:
+        void logicAndArithmeticOppcodes(uint16_t oppcode);
+        void fPrefixOppcodes(uint16_t oppcode);
         uint16_t readMemory(uint16_t addr) const;
         void drawSprite(int x, int y, int height);
 
         State s_;
         std::shared_ptr<Display> display_;
         std::array<uint8_t, 4096> memory_;
+        std::stack<uint16_t> stack_;
         const uint16_t programOffset_;
 };
 
