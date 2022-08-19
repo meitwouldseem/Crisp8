@@ -20,13 +20,14 @@ class Chip8Machine
 
         void loadRom(std::string name);
         void advance();
+        const State& getState() const;
+        uint16_t readMemory(uint16_t addr) const;
 
     protected:
 
     private:
         void logicAndArithmeticOppcodes(uint16_t oppcode);
         void fPrefixOppcodes(uint16_t oppcode);
-        uint16_t readMemory(uint16_t addr) const;
         void drawSprite(int x, int y, int height);
 
         State s_;

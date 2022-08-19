@@ -1,8 +1,8 @@
 #include "Display.h"
 
 Display::Display(int width, int height, int scaleFactor)
-    : RenderWindow(sf::VideoMode(width*scaleFactor, height*scaleFactor), "Crisp8")
-    , vertices_(sf::Quads, 0)
+    //: RenderWindow(sf::VideoMode(width*scaleFactor, height*scaleFactor), "Crisp8")
+    : vertices_(sf::Quads, 0)
     , width_(width)
     , height_(height)
     , scaleFactor_(scaleFactor)
@@ -19,18 +19,10 @@ Display::Display(int width, int height, int scaleFactor)
         }
 }
 
-void Display::process()
+void Display::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::Event event;
-    while (pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            close();
-    }
-
-    clear();
-    draw(vertices_);
-    display();
+    states.transform *= getTransform();
+    target.draw(vertices_, states);
 }
 
 void Display::setPixel(int x, int y, bool state)
@@ -50,6 +42,11 @@ void Display::clearDisplay()
 {
     for (size_t i=0; i<vertices_.getVertexCount(); i++)
         vertices_[i].color = sf::Color::Black;
+}
+
+sf::FloatRect Display::getBounds() const
+{
+    return vertices_.getBounds();
 }
 
 size_t Display::findIndex(int x, int y) const

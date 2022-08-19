@@ -8,6 +8,9 @@ Chip8Machine::Chip8Machine(const std::shared_ptr<Display>& display)
     , programOffset_(0x200)
 {
     s_.PC = programOffset_;
+    s_.I = 0;
+    for (int i=0; i<16; i++)
+        s_.V[i] = 0;
 }
 
 void Chip8Machine::loadRom(std::string name)
@@ -49,15 +52,15 @@ void Chip8Machine::advance()
         s_.PC = (oppcode & 0x0FFF);
         break;
     case 0x3://Skip if Vx = NN
-        if (s_.V[(oppcode & 0x0F00) >> 8] == (oppcode & 0x00FF));
+        if (s_.V[(oppcode & 0x0F00) >> 8] == (oppcode & 0x00FF))
             s_.PC += 2;
         break;
     case 0x4://Skip if Vx != NN
-        if (s_.V[(oppcode & 0x0F00) >> 8] != (oppcode & 0x00FF));
+        if (s_.V[(oppcode & 0x0F00) >> 8] != (oppcode & 0x00FF))
             s_.PC += 2;
         break;
     case 0x5://Skip if Vx = Vy
-        if (s_.V[(oppcode & 0x0F00) >> 8] == s_.V[(oppcode & 0x00F0) >> 4]);
+        if (s_.V[(oppcode & 0x0F00) >> 8] == s_.V[(oppcode & 0x00F0) >> 4])
             s_.PC += 2;
         break;
     case 0x6://Set Vx to NN
@@ -70,7 +73,7 @@ void Chip8Machine::advance()
         logicAndArithmeticOppcodes(oppcode);
         break;
     case 0x9://Skip if Vx != Vy
-        if (s_.V[(oppcode & 0x0F00) >> 8] != s_.V[(oppcode & 0x00F0) >> 4]);
+        if (s_.V[(oppcode & 0x0F00) >> 8] != s_.V[(oppcode & 0x00F0) >> 4])
             s_.PC += 2;
         break;
     case 0xA://Set index
@@ -96,6 +99,16 @@ void Chip8Machine::advance()
     default:
         break;
     }
+}
+
+const Chip8Machine::State& Chip8Machine::getState() const
+{
+    return s_;
+}
+
+uint16_t Chip8Machine::readMemory(uint16_t addr) const
+{
+    return (memory_[addr] << 8) | memory_[addr+1];
 }
 
 void Chip8Machine::logicAndArithmeticOppcodes(uint16_t oppcode)
@@ -167,22 +180,24 @@ void Chip8Machine::fPrefixOppcodes(uint16_t oppcode)
 
         break;
     case 0x33://Binary-coded decimal conversion
-
+        {
+            const int vx = s_.V[x];
+            memory_[s_.I] = vx/100;
+            memory_[s_.I+1] = (vx/10)%10;
+            memory_[s_.I+2] = vx%10;
+        }
         break;
     case 0x55://Store memory
-
+        for (int i=0; i<=x; i++)
+            memory_[s_.I+i] = s_.V[i];
         break;
     case 0x65://Load memory
-
+        for (int i=0; i<=x; i++)
+            s_.V[i] = memory_[s_.I+i];
         break;
     default:
         break;
     }
-}
-
-uint16_t Chip8Machine::readMemory(uint16_t addr) const
-{
-    return (memory_[addr] << 8) | memory_[addr+1];
 }
 
 void Chip8Machine::drawSprite(int x, int y, int height)

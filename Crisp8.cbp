@@ -56,9 +56,11 @@
 		</Linker>
 		<Unit filename="include/Chip8Machine.h" />
 		<Unit filename="include/Display.h" />
+		<Unit filename="include/StateMonitor.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Chip8Machine.cpp" />
 		<Unit filename="src/Display.cpp" />
+		<Unit filename="src/StateMonitor.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

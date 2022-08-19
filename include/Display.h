@@ -3,16 +3,17 @@
 #include <SFML/Graphics.hpp>
 
 class Display
-    : public sf::RenderWindow
+    : public sf::Drawable, sf::Transformable
 {
     public:
         Display(int width, int height, int scaleFactor);
         //~Display() = default;
 
-        void process();
+        void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
         void setPixel(int x, int y, bool state);
         void flipPixel(int x, int y);
         void clearDisplay();
+        sf::FloatRect getBounds() const;
 
     private:
         size_t findIndex(int x, int y) const;
