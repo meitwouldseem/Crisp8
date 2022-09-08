@@ -1,9 +1,10 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
+
 #include <SFML/Graphics.hpp>
 
 class Display
-    : public sf::Drawable, sf::Transformable
+    : public sf::Drawable, public sf::Transformable
 {
     public:
         Display(int width, int height, int scaleFactor);

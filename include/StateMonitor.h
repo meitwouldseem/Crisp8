@@ -1,5 +1,6 @@
 #ifndef CHIP8STATEMONITOR_H
 #define CHIP8STATEMONITOR_H
+
 #include <memory>
 #include <SFML/Graphics.hpp>
 

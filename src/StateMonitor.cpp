@@ -1,13 +1,14 @@
-#include "StateMonitor.h"
-#include "Chip8Machine.h"
 #include <sstream>
 #include <iomanip>
+#include "StateMonitor.h"
+#include "Chip8Machine.h"
+#include "UbuntuMono.h"
 
 StateMonitor::StateMonitor(const std::shared_ptr<Chip8Machine>& machine)
     : machine_(machine)
-    , text_("hello", font_)
+    , text_("State Monitor", font_)
 {
-    if (!font_.loadFromFile("UbuntuMono-R.ttf"))
+    if (!font_.loadFromMemory(UbuntuMono_R_ttf, UbuntuMono_R_ttf_len))
         throw std::runtime_error("Failed to load font");
 }
 

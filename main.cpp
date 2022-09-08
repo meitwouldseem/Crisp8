@@ -5,9 +5,9 @@
 
 int main(int argc, char** argv)
 {
-    int width = 64;
-    int height = 32;
-    int scaleFactor = 10;
+    const int width = 64;
+    const int height = 32;
+    const int scaleFactor = 10;
     auto display = std::make_shared<Display>(width, height, scaleFactor);
     auto machine = std::make_shared<Chip8Machine>(display);
     auto monitor = std::make_shared<StateMonitor>(machine);
@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
     display->clearDisplay();
 
-    sf::RenderWindow window(sf::VideoMode((width*scaleFactor)+300, height*scaleFactor), "Crisp8");
+    sf::RenderWindow window(sf::VideoMode((width*scaleFactor)+250, height*scaleFactor), "Crisp8");
     window.setFramerateLimit(120);
 
     if (argc > 1)

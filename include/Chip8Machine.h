@@ -1,5 +1,6 @@
 #ifndef CHIP8MACHINE_H
 #define CHIP8MACHINE_H
+
 #include <cstdint>
 #include <array>
 #include <memory>

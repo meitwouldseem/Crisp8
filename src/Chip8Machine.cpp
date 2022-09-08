@@ -11,6 +11,7 @@ Chip8Machine::Chip8Machine(const std::shared_ptr<Display>& display)
     s_.I = 0;
     for (int i=0; i<16; i++)
         s_.V[i] = 0;
+    memory_.fill(0);
 }
 
 void Chip8Machine::loadRom(std::string name)
